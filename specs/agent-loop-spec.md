@@ -122,7 +122,11 @@ for tool_call in assistant_message.tool_calls:
 *The loop should stop when: (a) the LLM returns a response with no tool calls, OR (b) the MAX_TOOL_ROUNDS limit is reached. Describe how you will detect each condition and what you will return in each case.*
 
 ```
-[your answer here]
+(a) assistant_message = response.choices[0].message
+    if not assistant_message.tool_calls:  # LLM has a final answer
+        return assistant_message.content
+(b) if rounds >= MAX_TOOL_ROUNDS:
+        return "I wasn't able to finish processing that. Could you rephrase or break it into smaller questions?"
 ```
 
 ---
@@ -132,7 +136,7 @@ for tool_call in assistant_message.tool_calls:
 *Once the loop exits because there are no more tool calls, how do you extract the text content from the response object? What field holds the string you should return?*
 
 ```
-[your answer here]
+final_response = assistant_message.content
 ```
 
 ---
@@ -145,19 +149,21 @@ for tool_call in assistant_message.tool_calls:
 
 ```
 Query: "How should I care for my calathea?"
-Round 1 tool call: [tool name, args]
-Round 2 tool call: [tool name, args] (if any)
-Final response: [brief description]
+Round 1 tool call: → Tool call: lookup_plant({'plant_name': 'calathea'})
+Round 2 tool call: [None]
+Final response: [A brief summary of calathea care, based on the database info]
 ```
 
 **What happens when you ask about a plant that isn't in the database?**
 
 ```
-[describe the behavior you observed]
+[Tool call: lookup_plant({'plant_name': 'pucheen'})
+  ← Result: {"found": false, "name": "pucheen", "message": "Sorry, I couldn't find a plant matching 'pucheen'. Please check the name..."}]
+I made the name up, its not a real plant at all.
 ```
 
 **One thing about the tool call API that surprised you:**
 
 ```
-[your answer here]
+[It does not use all possible tools. It probably just does a lazy search. I did not test this too much]
 ```
