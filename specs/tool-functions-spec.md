@@ -91,17 +91,17 @@ likely match for clean user input. Aliases are the broadest net, so they go last
 
 **Test: does `"devil's ivy"` return the pothos entry?**
 ```
-[yes / no — if no, describe what happened]
+[yes]
 ```
 
 **Test: does `"SNAKE PLANT"` return the snake plant entry?**
 ```
-[yes / no — if no, describe what happened]
+[yes]
 ```
 
 **One edge case you discovered while implementing:**
 ```
-[your answer here]
+[Shell quoting can alter test input containing apostrophes when running quick CLI checks (e.g., `devil's ivy`). Run the lookup directly inside Python or ensure proper quoting; also the local environment may lack `python-dotenv`, which can block imports during quick runs — stubbing `dotenv.load_dotenv` is a simple workaround for local validation.]
 ```
 
 ---
